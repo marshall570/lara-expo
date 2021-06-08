@@ -1,47 +1,46 @@
 import React, { useEffect, useState } from 'react'
 import { FontAwesome } from 'react-native-vector-icons'
-import { View, Text, TouchableOpacity, Alert, Image, FlatList } from 'react-native'
+import { View, Text, TouchableOpacity, FlatList } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import Toast from 'react-native-simple-toast'
 
 import style from './style'
 import api from '../../service/api'
 
-export default function ContentMenu() {
+export default function ExtraMenu() {
     const navigation = useNavigation()
     const route = useRoute()
-    const component = route.params.component
+    const content = route.params.content
 
-    const [contents, setContents] = useState([])
+    const [extras, setExtras] = useState([])
 
-    async function loadContents() {
-        const response = await api.get(`/content?component=${component}`)
+    async function loadExtras() {
+        const response = await api.get(`/extra?axis=${content}`)
 
-        setContents([...response.data])
-    }
-
-    function navigateBook(content, name) {
-        navigation.navigate('Book', { content, name })
+        setExtras([...response.data])                    
     }
 
     useEffect(() => {
-        loadContents()
+        loadExtras()
     }, [])
 
     return (
         <View style={style.container}>
             <View style={style.header}>
-                <Text style={style.headerText}>Selecione um conteúdo</Text>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={style.backIcon}>
+                    <FontAwesome name='arrow-left' size={24} color='#078eff' />
+                </TouchableOpacity>
+
+                <Text style={style.headerText}>CONTEÚDO EXTRA</Text>
             </View>
 
             <View style={style.listArea}>
                 <FlatList
-                    data={contents}
-                    keyExtractor={content => content._id}
-                    renderItem={({ item: content }) => (
-                        <TouchableOpacity style={style.button} onPress={() => navigateBook(content._id, content.name)}>
-                            <Image source={{uri: `https://lara-icons.s3-sa-east-1.amazonaws.com/${content._id}.png`}} style={style.icon}></Image>
-                            <Text style={style.buttonText}>{content.name}</Text>
+                    data={extras}
+                    keyExtractor={extras => String(extras._id)}
+                    renderItem={({ item: extras }) => (
+                        <TouchableOpacity style={style.button}>                            
+                            <Text style={style.buttonText}>{extras.name}</Text>
                         </TouchableOpacity>
                     )}
                 />

@@ -12,12 +12,8 @@ export default StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    backIcon: {
-        position: 'absolute',
-        left: 0
+        justifyContent: 'space-between',
+        marginBottom: 20
     },
 
     headerText: {
@@ -26,9 +22,19 @@ export default StyleSheet.create({
         color: '#078eff',
     },
 
+    picArea: {
+        flex: 0,
+        alignItems: 'center'
+    },
+
+    pic: {
+        width: 128,
+        height: 128,
+        borderRadius: 100
+    },
+
     formArea: {
-        flex: 1,
-        marginTop: 72
+        flex: 2,        
     },
 
     label: {

@@ -3,7 +3,6 @@ import { FontAwesome } from 'react-native-vector-icons'
 import { View, ScrollView, Text, TouchableOpacity, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import Toast from 'react-native-simple-toast'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import style from './style'
 

@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { FontAwesome } from 'react-native-vector-icons'
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, TextInput, Image, TouchableOpacity, Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import Toast from 'react-native-simple-toast'
+import * as ImagePicker from 'expo-image-picker'
 
 import style from './style'
 import api from '../../service/api'
@@ -15,13 +16,29 @@ export default function SignUp() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirm, setConfirm] = useState('')
+    const [pic, setPic] = useState('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/150px-Placeholder_no_text.svg.png')
+
+
+    const photo = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1
+        })
+
+        if (!result.cancelled) {
+            setPic(result.uri)
+        }
+
+    }
 
     function handleSignUp() {
         try {
-            const values = { 
-                name: name.trim(), 
-                user: user.trim(), 
-                email: email.trim(), 
+            const values = {
+                name: name.trim(),
+                user: user.trim(),
+                email: email.trim(),
                 password: password.trim()
             }
 
@@ -29,9 +46,21 @@ export default function SignUp() {
                 if (password.length >= 8) {
                     if (password === confirm) {
                         api.post('/user', values).then((response) => {
-                            if (response.status === 201) {
-                                Alert.alert('CADASTRADO', 'Usuário criado com sucesso, retornando à tela de Login.')
+                            if (response.data._id !== undefined) {
+                                const form_data = new FormData()
+                                const type = 'image/png'
 
+                                const new_name = `${response.data._id}.png`
+
+                                form_data.append('file', { uri: pic, name: new_name, type })
+
+                                api.post('/pic', form_data, {
+                                    headers: {
+                                        'content-type': 'multipart/form-data',
+                                    }
+                                })                                
+
+                                Toast.show('Usuário cadastrado com sucesso, voltando para a tela de login...')
                                 navigation.goBack()
                             } else {
                                 Toast.show('Algo de errado aconteceu, tente novamente')
@@ -64,14 +93,22 @@ export default function SignUp() {
     return (
         <View style={style.container}>
             <View style={style.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={style.backIcon}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
                     <FontAwesome name='arrow-left' size={28} color='#078eff' />
                 </TouchableOpacity>
 
                 <Text style={style.headerText}>CADASTRO</Text>
+
+                <TouchableOpacity onPress={() => photo()}>
+                    <FontAwesome name='camera' size={28} color='#078eff' />
+                </TouchableOpacity>
             </View>
 
             <View style={style.formArea}>
+                <View style={style.picArea}>
+                    {pic && <Image source={{ uri: pic }} style={style.pic}></Image>}
+                </View>
+
                 <Text style={style.label}>NOME</Text>
                 <TextInput style={style.input} placeholder={'Marshall Lee'} onChangeText={(text) => setName(text)} value={name} autoCapitalize={'words'} autoCorrect={false} />
 

@@ -4,18 +4,48 @@ import { View, TextInput, Text, TouchableOpacity, Alert, Image } from 'react-nat
 import { useNavigation } from '@react-navigation/native'
 import Toast from 'react-native-simple-toast'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as ImagePicker from 'expo-image-picker'
 
-
+import api from '../../service/api'
 import style from './style'
 
 export default function Profile() {
     const navigation = useNavigation()
 
-    const [id, setId] = useState()    
+    const [id, setId] = useState()
     const [name, setName] = useState()
     const [user, setUser] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
+    const [pic, setPic] = useState('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/150px-Placeholder_no_text.svg.png')
+
+    const photo = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1
+        })
+
+        if (!result.cancelled) {
+            setPic(result.uri)
+            const form_data = new FormData()
+            
+            const type = 'image/png'
+            const new_name = `${id}.png`
+            
+            form_data.append('file', { uri: pic, name: new_name, type })
+            
+            api.post('/pic', form_data, {
+                headers: {
+                    'content-type': 'multipart/form-data',
+                }
+            })
+
+            setId(id)
+        }
+
+    }
 
     AsyncStorage.getItem('@user_data').then((data) => {
         data = JSON.parse(data)
@@ -25,6 +55,7 @@ export default function Profile() {
         setUser(data.user)
         setEmail(data.email)
         setPassword(data.password)
+        setPic(`https://lara-profile-pics.s3-sa-east-1.amazonaws.com/${data.id}.png`)
     })
 
 
@@ -44,7 +75,10 @@ export default function Profile() {
 
             <View style={style.profileArea}>
                 <View style={style.picArea}>
-                    <Image source={require('./placeholder.png')} style={style.pic}></Image>
+
+                    <TouchableOpacity onPress={() => photo()}>
+                        <Image source={{ uri: pic }} style={style.pic}></Image>
+                    </TouchableOpacity>
 
                     <View style={style.info}>
                         <View>
@@ -64,7 +98,7 @@ export default function Profile() {
                     <TextInput style={style.input} editable={false} value={email} />
 
                     <Text style={style.label}>SENHA</Text>
-                    <TextInput style={style.input} editable={false} secureTextEntry={true} value={password} />                                
+                    <TextInput style={style.input} editable={false} secureTextEntry={true} value={password} />
                 </View>
             </View>
 
@@ -84,6 +118,6 @@ export default function Profile() {
                     <Text style={style.footerText}>PERFIL</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </View >
     )
 }

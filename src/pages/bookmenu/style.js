@@ -4,7 +4,6 @@ import Constants from 'expo-constants'
 export default StyleSheet.create({
     container: {
         flex: 1,
-        // paddingHorizontal: 20,
         paddingTop: Constants.statusBarHeight + 24,
         backgroundColor: '#fafafa',
         justifyContent: 'space-between'

@@ -8,6 +8,8 @@ import Profile from './pages/profile'
 import ComponentMenu from './pages/componentmenu'
 import ContentMenu from './pages/contentmenu'
 import BookMenu from './pages/bookmenu'
+import QuestionMenu from './pages/questionmenu'
+import ExtraMenu from './pages/extramenu'
 
 const AppStack = createStackNavigator()
 
@@ -21,7 +23,9 @@ export default function Routes() {
                 <AppStack.Screen name="Component" component={ComponentMenu} />
                 <AppStack.Screen name="Content" component={ContentMenu} />
                 <AppStack.Screen name="Book" component={BookMenu} />
-                <AppStack.Screen name="Profile" component={Profile} />            
+                <AppStack.Screen name="Question" component={QuestionMenu} />
+                <AppStack.Screen name="Extra" component={ExtraMenu} />
+                <AppStack.Screen name="Profile" component={Profile} />
             </AppStack.Navigator>
         </NavigationContainer>
     )
