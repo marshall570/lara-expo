@@ -40,7 +40,7 @@ export default function ComponentMenu() {
                     keyExtractor={component => String(component._id)}
                     renderItem={({ item: component }) => (
                         <TouchableOpacity style={style.button} onPress={() => navigateContents(component._id)}>
-                            <Image source={{uri: component.icon, cache: 'force-cache'}} style={style.icon} />
+                            <Image source={{uri: `https://lara-icons.s3-sa-east-1.amazonaws.com/${component._id}.png`, cache: 'force-cache'}} style={style.icon} />
                             <Text style={style.buttonText}>{component.name}</Text>
                         </TouchableOpacity>
                     )}

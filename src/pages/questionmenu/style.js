@@ -11,10 +11,10 @@ export default StyleSheet.create({
     },
 
     question: {
-        flex: 1,
+        flex: 1,        
         marginBottom: 18,
         borderRadius: 8,
-        backgroundColor: '#fff',
+        backgroundColor: '#fff',        
         elevation: 2,
     },
 

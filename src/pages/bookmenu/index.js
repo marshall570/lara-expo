@@ -46,10 +46,10 @@ export default function BookMenu() {
     return (
         <View style={style.container}>
             <View style={style.header}>
-                <Text style={style.headerText}>{name}</Text>
+                <Text style={style.headerText}>{name.toUpperCase()}</Text>
             </View>
 
-            <WebView style={{ backgroundColor: '#fafafa' }} scalesPageToFit={false} source={{ uri: `https://lara-pages.s3-sa-east-1.amazonaws.com/${content}.md` }}></WebView>
+            <WebView style={{ backgroundColor: '#fafafa' }} scalesPageToFit={false} source={{ uri: `https://lara-pages.s3-sa-east-1.amazonaws.com/${content}.html` }}></WebView>
 
             <View style={style.footer}>
                 <TouchableOpacity style={style.footerIcon} onPress={() => navigateExtra(content)} onLongPress={() => Toast.show('Clique aqui para ver materiais extras e recomendações que podem te ajudar a fixar melhor este conteúdo', 10)}>

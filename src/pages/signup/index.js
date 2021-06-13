@@ -48,7 +48,11 @@ export default function SignUp() {
                         Toast.show('Enviando dados, aguarde...')
 
                         api.post('/user', values).then((response) => {
-                            if (response.data._id !== undefined) {
+                            if (response.data.result === 'user') {
+                                Alert.alert('ERRO', 'Já existe um registro com esse usuário.')
+                            } else if (response.data.result === 'mail') {
+                                Alert.alert('ERRO', 'Já existe um registro com esse email.')
+                            } else {
                                 const form_data = new FormData()
                                 const type = 'image/png'
 
@@ -60,12 +64,10 @@ export default function SignUp() {
                                     headers: {
                                         'content-type': 'multipart/form-data',
                                     }
-                                })                                
+                                })
 
                                 Toast.show('Usuário cadastrado com sucesso, voltando para a tela de login...')
                                 navigation.goBack()
-                            } else {
-                                Toast.show('Algo de errado aconteceu, tente novamente')
                             }
                         })
                     } else {
