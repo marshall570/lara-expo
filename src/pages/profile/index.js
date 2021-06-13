@@ -17,7 +17,7 @@ export default function Profile() {
     const [user, setUser] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
-    const [pic, setPic] = useState('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/150px-Placeholder_no_text.svg.png')
+    const [pic, setPic] = useState(null)
 
     const photo = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
@@ -28,21 +28,18 @@ export default function Profile() {
         })
 
         if (!result.cancelled) {
-            setPic(result.uri)
             const form_data = new FormData()
             
             const type = 'image/png'
             const new_name = `${id}.png`
             
-            form_data.append('file', { uri: pic, name: new_name, type })
+            form_data.append('file', { uri: result.uri, name: new_name, type })
             
             api.post('/pic', form_data, {
                 headers: {
                     'content-type': 'multipart/form-data',
                 }
-            })
-
-            setId(id)
+            })            
         }
 
     }
@@ -76,8 +73,8 @@ export default function Profile() {
             <View style={style.profileArea}>
                 <View style={style.picArea}>
 
-                    <TouchableOpacity onPress={() => photo()}>
-                        <Image source={{ uri: pic }} style={style.pic}></Image>
+                    <TouchableOpacity onPress={() => photo()} style={style.pic}>
+                        {pic && <Image source={{ uri: pic, cache: 'reload', headers: {Pragma: 'no-cache'} }} style={style.pic}/>}
                     </TouchableOpacity>
 
                     <View style={style.info}>

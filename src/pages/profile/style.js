@@ -39,15 +39,17 @@ export default StyleSheet.create({
 
     pic: {
         flex: 1,
-        width: 128,
-        height: 128,
-        borderRadius: 16,
+        width: 124,
+        height: 124,
+        resizeMode: 'center',
+        borderRadius: 360,
         marginRight: 14
     },
 
     labelPic: {
         fontWeight: 'bold',
         fontSize: 24,
+        marginStart: 2,
         color: '#078eff',
         alignSelf: 'flex-start'
     },
@@ -63,6 +65,7 @@ export default StyleSheet.create({
         borderColor: '#1f2126',
         color: '#000',
         marginBottom: 6,
+        marginStart: 2,
         fontSize: 20,
         width: '100%',
         paddingHorizontal: 4,

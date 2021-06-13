@@ -18,7 +18,7 @@ export default function BookMenu() {
     function navigateQuestion(content) {
         api.get(`/question?content=${content}`).then((response) => {
             const [data] = response.data
-                        
+
             if (data === undefined) {
                 Toast.show('Ainda não existem perguntas cadastradas para esse conteúdo, volte mais tarde.')
             } else {
@@ -32,7 +32,7 @@ export default function BookMenu() {
     function navigateExtra(content) {
         api.get(`/extra?content=${content}`).then((response) => {
             const [data] = response.data
-                        
+
             if (data === undefined) {
                 Toast.show('Ainda não existem materiais extras cadastrados para esse conteúdo, volte mais tarde.')
             } else {
@@ -49,7 +49,7 @@ export default function BookMenu() {
                 <Text style={style.headerText}>{name}</Text>
             </View>
 
-            <WebView style={{ backgroundColor: '#fafafa' }} scalesPageToFit={false} source={{ uri: `https://lara-pages.s3-sa-east-1.amazonaws.com/${content}.html` }}></WebView>
+            <WebView style={{ backgroundColor: '#fafafa' }} scalesPageToFit={false} source={{ uri: `https://lara-pages.s3-sa-east-1.amazonaws.com/${content}.md` }}></WebView>
 
             <View style={style.footer}>
                 <TouchableOpacity style={style.footerIcon} onPress={() => navigateExtra(content)} onLongPress={() => Toast.show('Clique aqui para ver materiais extras e recomendações que podem te ajudar a fixar melhor este conteúdo', 10)}>

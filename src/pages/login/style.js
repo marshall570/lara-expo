@@ -47,6 +47,7 @@ export default StyleSheet.create({
         width: '100%',
         maxHeight: 48,
         marginTop: 36,
+        elevation: 2
     },
 
     buttonText: {

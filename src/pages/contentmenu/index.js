@@ -40,7 +40,7 @@ export default function ContentMenu() {
                     keyExtractor={content => content._id}
                     renderItem={({ item: content }) => (
                         <TouchableOpacity style={style.button} onPress={() => navigateBook(content._id, content.name)}>
-                            <Image source={{uri: `https://lara-icons.s3-sa-east-1.amazonaws.com/${content._id}.png`}} style={style.icon}></Image>
+                            <Image source={{uri: `https://lara-icons.s3-sa-east-1.amazonaws.com/${content._id}.png`, cache: 'force-cache'}} style={style.icon}></Image>
                             <Text style={style.buttonText}>{content.name}</Text>
                         </TouchableOpacity>
                     )}

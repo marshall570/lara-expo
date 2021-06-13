@@ -45,6 +45,8 @@ export default function SignUp() {
             if (verifyValues(values)) {
                 if (password.length >= 8) {
                     if (password === confirm) {
+                        Toast.show('Enviando dados, aguarde...')
+
                         api.post('/user', values).then((response) => {
                             if (response.data._id !== undefined) {
                                 const form_data = new FormData()
@@ -106,7 +108,7 @@ export default function SignUp() {
 
             <View style={style.formArea}>
                 <View style={style.picArea}>
-                    {pic && <Image source={{ uri: pic }} style={style.pic}></Image>}
+                    {pic && <Image source={{ uri: pic, cache: 'reload' }} style={style.pic}></Image>}
                 </View>
 
                 <Text style={style.label}>NOME</Text>
