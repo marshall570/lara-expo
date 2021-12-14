@@ -11,11 +11,23 @@ import BookMenu from './pages/bookmenu'
 import QuestionMenu from './pages/questionmenu'
 import ExtraMenu from './pages/extramenu'
 
+import api from './service/api'
+
 const AppStack = createStackNavigator()
 
 export default function Routes() {
+    function handleStart() {
+        api.get('/').then((response) => {
+            if (response.data.server === 'on') {
+                console.log('on')
+            } else {
+                console.log('off')
+            }
+        })
+    }
+
     return (
-        <NavigationContainer>
+        <NavigationContainer onReady={handleStart}>
             <AppStack.Navigator screenOptions={{ headerShown: false }}>
                 <AppStack.Screen name="Login" component={Login} />
                 <AppStack.Screen name="Sign Up" component={SignUp} />
